@@ -133,12 +133,8 @@ static bool align_windows = true;
  */
 static unsigned int max_freq_hysteresis;
 
-static bool io_is_busy;
-
-#define DOWN_LOW_LOAD_THRESHOLD 5
-
-/* Round to starting jiffy of next evaluation window */
-static u64 round_to_nw_start(u64 jif)
+static void cpufreq_interactive_timer_resched(
+	struct cpufreq_interactive_cpuinfo *pcpu)
 {
 	unsigned long step = usecs_to_jiffies(timer_rate);
 	u64 ret;
