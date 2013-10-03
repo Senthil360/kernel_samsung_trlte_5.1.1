@@ -305,8 +305,6 @@ int cpuidle_enable_device(struct cpuidle_device *dev)
 	if (!dev->state_count)
 		dev->state_count = drv->state_count;
 
-	poll_idle_init(drv);
-
 	ret = cpuidle_add_device_sysfs(dev);
 	if (ret)
 		return ret;
