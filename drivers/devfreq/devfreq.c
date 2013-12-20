@@ -945,7 +945,6 @@ static ssize_t show_available_freqs(struct device *d,
 		num_chars += snprintf(buf + num_chars, PAGE_SIZE, "%d ",
 		df->profile->freq_table[index]);
 	buf[num_chars++] = '\n';
-
 	return num_chars;
 }
 
