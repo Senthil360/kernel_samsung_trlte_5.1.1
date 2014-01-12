@@ -153,7 +153,6 @@ struct futex_hash_bucket {
 } ____cacheline_aligned_in_smp;
 
 static unsigned long __read_mostly futex_hashsize;
-
 static struct futex_hash_bucket *futex_queues;
 
 /*
@@ -2885,7 +2884,6 @@ static int __init futex_init(void)
 					       futex_hashsize, 0,
 					       futex_hashsize < 256 ? HASH_SMALL : 0,
 					       NULL, NULL, futex_hashsize, futex_hashsize);
-
 
 	futex_detect_cmpxchg();
 
