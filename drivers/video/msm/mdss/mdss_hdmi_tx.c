@@ -3035,7 +3035,7 @@ static int hdmi_tx_hpd_on(struct hdmi_tx_ctrl *hdmi_ctrl)
 
 		hdmi_ctrl->hpd_initialized = true;
 
-		DEV_INFO("hdmi:%s:%d: HDMI HW version = 0x%x\n", __func__, __LINE__,
+		DEV_DBG("hdmi:%s:%d: HDMI HW version = 0x%x\n", __func__, __LINE__,
 			DSS_REG_R_ND(&hdmi_ctrl->pdata.io[HDMI_TX_CORE_IO],
 				HDMI_VERSION));
 
