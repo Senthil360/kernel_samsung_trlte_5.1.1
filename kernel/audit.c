@@ -375,10 +375,11 @@ static void audit_printk_skb(struct sk_buff *skb)
 	char *data = nlmsg_data(nlh);
 #endif
 
-	if (nlh->nlmsg_type != AUDIT_EOE && nlh->nlmsg_type != AUDIT_NETFILTER_CFG) {
-#ifdef CONFIG_PROC_AVC
-		sec_avc_log("%s\n", data);
-#endif
+	if (nlh->nlmsg_type != AUDIT_EOE) {
+		if (printk_ratelimit())
+			pr_debug(KERN_NOTICE "type=%d %s\n", nlh->nlmsg_type, data);
+		else
+			audit_log_lost("printk limit exceeded\n");
 	}
 
 	audit_hold_skb(skb);
