@@ -1152,7 +1152,7 @@ static int32_t msm_actuator_set_param(struct msm_actuator_ctrl_t *a_ctrl,
 			if (init_settings == NULL) {
 				kfree(a_ctrl->i2c_reg_tbl);
 				a_ctrl->i2c_reg_tbl = NULL;
-				pr_err("[%s::%d]Error allocating memory for init_settings\n", __func__, __LINE__);
+				pr_err("Error allocating memory for init_settings\n");
 				return -EFAULT;
 			}
 			if (copy_from_user(init_settings,
@@ -1162,7 +1162,7 @@ static int32_t msm_actuator_set_param(struct msm_actuator_ctrl_t *a_ctrl,
 				kfree(init_settings);
 				kfree(a_ctrl->i2c_reg_tbl);
 				a_ctrl->i2c_reg_tbl = NULL;
-				pr_err("[%s::%d]Error copying init_settings\n", __func__, __LINE__);
+				pr_err("Error copying init_settings\n");
 				return -EFAULT;
 			}
 			rc = a_ctrl->func_tbl->actuator_init_focus(a_ctrl,
@@ -1171,7 +1171,8 @@ static int32_t msm_actuator_set_param(struct msm_actuator_ctrl_t *a_ctrl,
 			kfree(init_settings);
 			if (rc < 0) {
 				kfree(a_ctrl->i2c_reg_tbl);
-				pr_err("[%s::%d]Error actuator_init_focus\n", __func__, __LINE__);
+				a_ctrl->i2c_reg_tbl = NULL;
+				pr_err("Error actuator_init_focus\n");
 				return -EFAULT;
 			}
 		}
@@ -1351,7 +1352,8 @@ static int msm_actuator_close(struct v4l2_subdev *sd,
 	struct v4l2_subdev_fh *fh) {
 	int rc = 0;
 	struct msm_actuator_ctrl_t *a_ctrl =  v4l2_get_subdevdata(sd);
-	pr_info("[%s::%d] Enter\n", __func__, __LINE__);
+	CDBG("Enter\n");
+	mutex_lock(a_ctrl->actuator_mutex);
 	if (!a_ctrl) {
 		pr_err("[%s::%d]failed\n", __func__, __LINE__);
 		return -EINVAL;
@@ -1368,8 +1370,9 @@ static int msm_actuator_close(struct v4l2_subdev *sd,
 		if (rc < 0)
 			pr_err("[%s::%d]cci_init failed\n", __func__, __LINE__);
 	}
-	a_ctrl->actuator_state = ACTUATOR_POWER_DOWN;
-	a_ctrl->is_camera_run = FALSE;
+	kfree(a_ctrl->i2c_reg_tbl);
+	a_ctrl->i2c_reg_tbl = NULL;
+	mutex_unlock(a_ctrl->actuator_mutex);
 
 	if (a_ctrl->step_position_table) {
 		kfree(a_ctrl->step_position_table);
