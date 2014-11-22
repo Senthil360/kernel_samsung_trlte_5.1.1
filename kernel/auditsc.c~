@@ -733,7 +733,11 @@ static enum audit_state audit_filter_task(struct task_struct *tsk, char **key)
 	return AUDIT_BUILD_CONTEXT;
 }
 
+<<<<<<< HEAD
+static bool audit_in_mask(const struct audit_krule *rule, unsigned long val)
+=======
 static int audit_in_mask(const struct audit_krule *rule, unsigned long val)
+>>>>>>> b0f825a... Linux 3.10.44
 {
 	int word, bit;
 
