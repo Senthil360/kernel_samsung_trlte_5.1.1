@@ -1232,9 +1232,13 @@ retry:
 bool __netlink_ns_capable(const struct netlink_skb_parms *nsp,
 			struct user_namespace *user_ns, int cap)
 {
+<<<<<<< HEAD
+	return sk_ns_capable(nsp->sk, user_ns, cap);
+=======
 	return ((nsp->flags & NETLINK_SKB_DST) ||
 		file_ns_capable(nsp->sk->sk_socket->file, user_ns, cap)) &&
 		ns_capable(user_ns, cap);
+>>>>>>> 7288f18... Linux 3.10.45
 }
 EXPORT_SYMBOL(__netlink_ns_capable);
 
@@ -1286,6 +1290,10 @@ bool netlink_net_capable(const struct sk_buff *skb, int cap)
 }
 EXPORT_SYMBOL(netlink_net_capable);
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 7288f18... Linux 3.10.45
 static inline int netlink_allowed(const struct socket *sock, unsigned int flag)
 {
 	return (nl_table[sock->sk->sk_protocol].flags & flag) ||
