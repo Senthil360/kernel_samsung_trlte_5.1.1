@@ -1,6 +1,10 @@
 VERSION = 3
 PATCHLEVEL = 10
-SUBLEVEL = 43
+<<<<<<< HEAD
+SUBLEVEL = 52
+=======
+SUBLEVEL = 54
+>>>>>>> 170d4ed... Linux 3.10.54
 EXTRAVERSION =
 NAME = TOSSUG Baby Fish
 
@@ -358,7 +362,7 @@ CC		= $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-CFLAGS_MODULE   =
+CFLAGS_MODULE   =  $(GCC_4.9.3_M)
 AFLAGS_MODULE   =
 LDFLAGS_MODULE  = --strip-debug
 CFLAGS_KERNEL	= $(GCC_4.9.3_K_G)
@@ -631,6 +635,8 @@ ifndef CONFIG_FUNCTION_TRACER
 KBUILD_CFLAGS	+= -fomit-frame-pointer
 endif
 endif
+
+KBUILD_CFLAGS   += $(call cc-option, -fno-var-tracking-assignments)
 
 ifdef CONFIG_DEBUG_INFO
 KBUILD_CFLAGS	+= -g
