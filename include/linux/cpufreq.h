@@ -535,6 +535,9 @@ extern struct cpufreq_governor cpufreq_gov_zzmoove;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_SMARTASSH3)
 extern struct cpufreq_governor cpufreq_gov_smartassH3;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_smartassH3)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_BLU_ACTIVE)
+extern struct cpufreq_governor cpufreq_gov_blu_active;
+#define CPUFREQ_DEFAULT_GOVERNOR        (&cpufreq_gov_blu_active)
 #endif
 
 /*********************************************************************
