@@ -127,6 +127,8 @@ static int timer_slack_val = DEFAULT_TIMER_SLACK;
  */
 static bool align_windows = true;
 
+#define DOWN_LOW_LOAD_THRESHOLD 5
+
 /*
  * Stay at max freq for at least max_freq_hysteresis before dropping
  * frequency.
