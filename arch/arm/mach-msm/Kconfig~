@@ -974,6 +974,7 @@ config MSM_DEVFREQ_CPUBW
 	  agnostic interface to so that some of the devfreq governors can be
 	  shared across SoCs.
 
+<<<<<<< HEAD
 config FORCE_FAST_CHARGE
 	bool "Force fast charging (AC/USB) by Yank555.lu"
 	default n
@@ -987,11 +988,13 @@ config CPU_VOLTAGE_TABLE
 	default n
 	help
 	  DTS based kernel User Votlage Control
+=======
 config CPU_VOLTAGE_CONTROL
 	bool "Userspace CPU Voltage Control"
 	default y
 	help
 	  This enables userspace CPU Voltage Control.
+>>>>>>> 53da5ec... Voltage Control: generic voltage control for DTS based kernels
 
 config MSM_AVS_HW
 	bool "Enable Adaptive Voltage Scaling (AVS)"
@@ -1825,5 +1828,13 @@ config SEC_THERMISTOR
 config SAMSUNG_PRODUCT_SHIP
         bool "set up for product shipping"
         default n
+
+config INTELLI_HOTPLUG
+	bool "Intelli hotplug driver"
+	depends on HOTPLUG_CPU
+	default y
+	help
+	  An intelligent cpu hotplug driver for
+	  Low Latency Frequency Transition capable processors.
 
 endif
