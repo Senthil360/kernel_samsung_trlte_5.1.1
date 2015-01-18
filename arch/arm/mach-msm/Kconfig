@@ -989,6 +989,11 @@ config CPU_VOLTAGE_TABLE
 	help
 	  DTS based kernel User Votlage Control
 	  
+config MSM_CPUFREQ_LIMIT
+ 	tristate "MSM CPU frequency limiter"
+ 	default n
+ 	help
+
 config CPU_VOLTAGE_CONTROL
 	bool "Userspace CPU Voltage Control"
 	default y
