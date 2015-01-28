@@ -512,8 +512,8 @@ static void change_inst_state(struct msm_vidc_inst *inst,
 	mutex_lock(&inst->lock);
 	if (inst->state == MSM_VIDC_CORE_INVALID) {
 		dprintk(VIDC_DBG,
-			"Inst: %p is in bad state can't change state\n",
-			inst);
+			"Inst: %p is in bad state can't change state to %d\n",
+			inst, state);
 		goto exit;
 	}
 	dprintk(VIDC_DBG, "Moved inst: %p from state: %d to state: %d\n",
@@ -2151,6 +2151,7 @@ core_already_uninited:
 
 int msm_comm_force_cleanup(struct msm_vidc_inst *inst)
 {
+	msm_comm_kill_session(inst);
 	return msm_vidc_deinit_core(inst);
 }
 
@@ -4052,6 +4053,15 @@ int msm_vidc_check_session_supported(struct msm_vidc_inst *inst)
 	capability = &inst->capability;
 	hdev = inst->core->device;
 	rc = msm_vidc_load_supported(inst);
+
+	if (rc) {
+		change_inst_state(inst, MSM_VIDC_CORE_INVALID);
+		msm_comm_kill_session(inst);
+		dprintk(VIDC_WARN,
+			"%s: Hardware is overloaded\n", __func__);
+		return rc;
+	}
+	
 	if (!rc && inst->capability.capability_set) {
 		rc = call_hfi_op(hdev, capability_check,
 			inst->fmts[OUTPUT_PORT]->fourcc,
@@ -4071,11 +4081,16 @@ int msm_vidc_check_session_supported(struct msm_vidc_inst *inst)
 	}
 	if (rc) {
 		change_inst_state(inst, MSM_VIDC_CORE_INVALID);
+
 		msm_vidc_queue_v4l2_event(inst,
 					V4L2_EVENT_MSM_VIDC_HW_OVERLOAD);
 		dprintk(VIDC_WARN,
 			"%s: Hardware is overloaded\n", __func__);
 		wake_up(&inst->kernel_event_queue);
+
+		msm_comm_kill_session(inst);
+		dprintk(VIDC_ERR,
+			"%s: Resolution unsupported\n", __func__);
 	}
 	return rc;
 }
