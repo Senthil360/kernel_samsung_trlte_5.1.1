@@ -368,10 +368,14 @@ static void cpufreq_interactive_timer(unsigned long data)
 	unsigned int loadadjfreq;
 	unsigned int index;
 	unsigned long flags;
+<<<<<<< HEAD
+	bool boosted;
+=======
 	unsigned long mod_min_sample_time;
 	int i, max_load;
 	unsigned int max_freq;
 	struct cpufreq_interactive_cpuinfo *picpu;
+>>>>>>> 48a88ef... cpufreq_interactive: update again interactive from Shamu source
 
 	if (!down_read_trylock(&pcpu->enable_sem))
 		return;
@@ -441,8 +445,14 @@ static void cpufreq_interactive_timer(unsigned long data)
 	pcpu->hispeed_validate_time = now;
 
 	if (cpufreq_frequency_table_target(pcpu->policy, pcpu->freq_table,
+<<<<<<< HEAD
+					   new_freq, CPUFREQ_RELATION_L,
+					   &index)) {
+		spin_unlock_irqrestore(&pcpu->target_freq_lock, flags);
+=======
 					   new_freq, CPUFREQ_RELATION_C,
 					   &index))
+>>>>>>> 48a88ef... cpufreq_interactive: update again interactive from Shamu source
 		goto rearm;
 
 	new_freq = pcpu->freq_table[index].frequency;
@@ -653,9 +663,13 @@ static void cpufreq_interactive_boost(void)
 	unsigned long flags;
 	struct cpufreq_interactive_cpuinfo *pcpu;
 
+<<<<<<< HEAD
+	spin_lock_irqsave(&speedchange_cpumask_lock, flags[0]);
+=======
 	boosted = true;
 	
 	spin_lock_irqsave(&speedchange_cpumask_lock, flags);
+>>>>>>> 48a88ef... cpufreq_interactive: update again interactive from Shamu source
 
 	for_each_online_cpu(i) {
 		pcpu = &per_cpu(cpuinfo, i);
