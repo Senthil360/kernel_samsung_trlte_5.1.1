@@ -408,6 +408,9 @@ static int msm_cpufreq_init(struct cpufreq_policy *policy)
 	policy->max = CONFIG_MSM_CPU_FREQ_MAX;
 #endif
 
+        policy->max = 3091200;
+	policy->min = 268000;
+
 	cur_freq = clk_get_rate(cpu_clk[policy->cpu])/1000;
 
 	if (cpufreq_frequency_table_target(policy, table, cur_freq,
