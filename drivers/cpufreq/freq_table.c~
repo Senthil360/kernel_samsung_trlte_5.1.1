@@ -115,7 +115,11 @@ int cpufreq_frequency_table_target(struct cpufreq_policy *policy,
 		.driver_data = ~0,
 		.frequency = 0,
 	};
+<<<<<<< HEAD
+	unsigned int i;
+=======
 	unsigned int diff, i = 0;
+>>>>>>> a3a96d6... freq_table: fix
 
 	pr_debug("request for target %u kHz (relation: %u) for cpu %u\n",
 					target_freq, relation, policy->cpu);
