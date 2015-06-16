@@ -16,6 +16,9 @@
 #include <linux/kobject.h>
 #include <linux/notifier.h>
 #include <linux/sysfs.h>
+#ifdef CONFIG_CPUFREQ_HARDLIMIT
+#include <linux/cpufreq_hardlimit.h>
+#endif
 
 /*********************************************************************
  *                        CPUFREQ INTERFACE                          *
@@ -170,15 +173,11 @@ enum {
 	BOOT_CPU = 0,
 };
 
-#define MIN_TOUCH_LOW_LIMIT	1497600
-#define MIN_TOUCH_LIMIT		1728000
-#define MIN_TOUCH_HIGH_LIMIT	2457600
-#define MIN_CAMERA_LIMIT	998400
-#if defined(CONFIG_SEC_TRLTE_PROJECT) || defined(CONFIG_SEC_TBLTE_PROJECT)
-#define MIN_TOUCH_LIMIT_SECOND	1267200
-#else
-#define MIN_TOUCH_LIMIT_SECOND	1190400
-#endif
+#define MIN_TOUCH_LOW_LIMIT     1497600
+#define MIN_TOUCH_LIMIT         1574400
+#define MIN_TOUCH_HIGH_LIMIT    1728000
+#define MIN_CAMERA_LIMIT        1190400
+#define MIN_TOUCH_LIMIT_SECOND  1267200
 
 enum {
 	DVFS_NO_ID			= 0,
@@ -312,6 +311,19 @@ void cpufreq_notify_utilization(struct cpufreq_policy *policy,
 static inline void cpufreq_verify_within_limits(struct cpufreq_policy *policy,
 		unsigned int min, unsigned int max)
 {
+#ifdef CONFIG_CPUFREQ_HARDLIMIT
+	#ifdef CPUFREQ_HARDLIMIT_DEBUG
+	pr_info("[HARDLIMIT] cpufreq.h verify_within_limits : min = %u / max = %u / new_min = %u / new_max = %u \n",
+			min,
+			max,
+			check_cpufreq_hardlimit(min),
+			check_cpufreq_hardlimit(max)
+		);
+	#endif
+	 /* Yank555.lu - Enforce hardlimit */
+	min = check_cpufreq_hardlimit(min);
+	max = check_cpufreq_hardlimit(max);
+#endif
 	if (policy->min < min)
 		policy->min = min;
 	if (policy->max < min)
