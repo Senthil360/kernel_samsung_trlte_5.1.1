@@ -857,10 +857,6 @@ static int ip_error(struct sk_buff *skb)
 	bool send;
 	int code;
 
-	/* IP on this device is disabled. */
-	if (!in_dev)
-		goto out;
-
 	net = dev_net(rt->dst.dev);
 	if (!IN_DEV_FORWARD(in_dev)) {
 		switch (rt->dst.error) {
@@ -1493,7 +1489,7 @@ static int __mkroute_input(struct sk_buff *skb,
 	struct in_device *out_dev;
 	unsigned int flags = 0;
 	bool do_cache;
-	u32 itag = 0;
+	u32 itag;
 
 	/* get a working reference to the output device */
 	out_dev = __in_dev_get_rcu(FIB_RES_DEV(*res));
@@ -2330,7 +2326,7 @@ static int rt_fill_info(struct net *net,  __be32 dst, __be32 src,
 			}
 		} else
 #endif
-			if (nla_put_u32(skb, RTA_IIF, skb->dev->ifindex))
+			if (nla_put_u32(skb, RTA_IIF, rt->rt_iif))
 				goto nla_put_failure;
 	}
 
