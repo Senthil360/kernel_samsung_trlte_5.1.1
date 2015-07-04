@@ -262,6 +262,8 @@ acpi_ev_address_space_dispatch(union acpi_operand_object *region_obj,
 		context->length = field_obj->field.resource_length;
 		context->access_length = field_obj->field.access_length;
 	}
+<<<<<<< HEAD
+=======
 	if ((region_obj->region.space_id == ACPI_ADR_SPACE_GPIO) &&
 	    context && field_obj) {
 
@@ -280,6 +282,7 @@ acpi_ev_address_space_dispatch(union acpi_operand_object *region_obj,
 			  ACPI_FORMAT_UINT64(address),
 			  acpi_ut_get_region_name(region_obj->region.
 						  space_id)));
+>>>>>>> 735c6e9... Linux 3.10.83
 
 	if (!(handler_desc->address_space.handler_flags &
 	      ACPI_ADDR_HANDLER_DEFAULT_INSTALLED)) {
