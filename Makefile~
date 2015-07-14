@@ -1,6 +1,6 @@
 VERSION = 3
 PATCHLEVEL = 10
-SUBLEVEL = 85
+SUBLEVEL = 87
 EXTRAVERSION =
 NAME = TOSSUG Baby Fish
 
@@ -204,8 +204,8 @@ ARCH		?=arm
 CROSS_COMPILE	?=/opt/toolchains/arm-eabi-4.7/bin/arm-eabi-
 =======
 ARCH		?= arm
-CROSS_COMPILE	?= ${CCACHE} /home/friedrich420/kernel/hyper-linaro-arm-eabi-5.1/bin/arm-eabi-
->>>>>>> d43f371... Linux 3.10.85
+CROSS_COMPILE	?= /home/friedrich420/kernel/hyper-linaro-arm-eabi-5.1/bin/arm-eabi-
+>>>>>>> dfe23f6... GCC 5.1 Compilation Fixes and Switch to Hyper Linaro arm-eabi 5.1
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
