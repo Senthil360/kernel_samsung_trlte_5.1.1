@@ -162,10 +162,22 @@ static int boost_mig_sync_thread(void *data)
 
 	if (!cpuboost_enable) return;
 
+<<<<<<< HEAD
+	while (1) {
+		wait_event(s->sync_wq, s->pending || kthread_should_stop());
+#ifdef CONFIG_IRLED_GPIO
+		if (unlikely(gir_boost_disable)) {
+			pr_debug("[GPIO_IR][%s] continue~!(cpu:%d)\n", 
+				__func__, raw_smp_processor_id());
+			continue;
+		}
+#endif
+=======
 	spin_lock_irqsave(&s->lock, flags);
 	s->pending = false;
 	src_cpu = s->src_cpu;
 	spin_unlock_irqrestore(&s->lock, flags);
+>>>>>>> 176bd40... Fixed kernel compile
 
 		if (kthread_should_stop())
 			break;
@@ -183,10 +195,18 @@ static int boost_mig_sync_thread(void *data)
 		if (ret)
 			continue;
 
+<<<<<<< HEAD
+		if (s->task_load < migration_load_threshold)
+			continue;
+
+		req_freq = load_based_syncs ?
+			(dest_policy.max * s->task_load) / 100 : src_policy.cur;
+=======
 	if (sync_threshold)
 		req_freq = min(sync_threshold, req_freq);
 
 	cancel_delayed_work_sync(&s->boost_rem);
+>>>>>>> 176bd40... Fixed kernel compile
 
 		if (req_freq <= dest_policy.cpuinfo.min_freq) {
 			pr_debug("No sync. Sync Freq:%u\n", req_freq);
