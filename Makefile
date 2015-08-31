@@ -246,7 +246,6 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 	  else if [ -x /bin/bash ]; then echo /bin/bash; \
 	  else echo sh; fi ; fi)
 
-
 HOSTCFLAGS   = $(GCC_4.9.3_HOSTCFLAGS)
 HOSTCXXFLAGS = $(GCC_4.9.3_HOSTCXXFLAGS)
 HOSTCC       = $(CCACHE) gcc
@@ -403,8 +402,6 @@ KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
 # L1/L2 cache size parameters
 KBUILD_CFLAGS	+= --param l1-cache-size=32 --param l1-cache-line-size=32 --param l2-cache-size=1024
 
->>>>>>> f674023... Prepatch Linux 3.10.80
->>>>>>> 8f2f261... Update Linux 3.10.80
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
