@@ -26,10 +26,6 @@
 #include <linux/input.h>
 #include <linux/time.h>
 
-#ifdef CONFIG_CPUFREQ_HARDLIMIT
-#include <linux/cpufreq_hardlimit.h>
-#endif
-
 struct cpu_sync {
 	struct task_struct *thread;
 	wait_queue_head_t sync_wq;
@@ -193,15 +189,7 @@ static int boost_mig_sync_thread(void *data)
 		req_freq = load_based_syncs ?
 			(dest_policy.max * s->task_load) / 100 : src_policy.cur;
 
-		if (req_freq <= dest_policy.cpuinfo.min_freq) {
-			pr_debug("No sync. Sync Freq:%u\n", req_freq);
-			continue;
-		}
-#ifdef CONFIG_CPUFREQ_HARDLIMIT
-        s->boost_min = check_cpufreq_hardlimit(req_freq);
-#else
 		s->boost_min = req_freq;
-#endif
 
 		if (sync_threshold)
 			req_freq = min(sync_threshold, req_freq);
