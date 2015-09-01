@@ -46,6 +46,14 @@ static DEFINE_SPINLOCK(tz_lock);
 #define LONG_FRAME		25000
 
 /*
+ * Use BUSY_BIN to check for fully busy rendering
+ * intervals that may need early intervention when
+ * seen with LONG_FRAME lengths
+ */
+#define BUSY_BIN		95
+#define LONG_FRAME		25000
+
+/*
  * CEILING is 50msec, larger than any standard
  * frame length, but less than the idle timer.
  */
@@ -91,6 +99,11 @@ static void _update_cutoff(struct devfreq_msm_adreno_tz_data *priv,
 	}
 }
 
+#ifdef CONFIG_ADRENO_IDLER
+extern int adreno_idler(struct devfreq_dev_status stats, struct devfreq *devfreq,
+		 unsigned long *freq);
+#endif
+
 static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 				u32 *flag)
 {
@@ -108,11 +121,26 @@ static int tz_get_target_freq(struct devfreq *devfreq, unsigned long *freq,
 		stats.private_data = &b;
 	else
 		stats.private_data = NULL;
+
 	result = devfreq->profile->get_dev_status(devfreq->dev.parent, &stats);
 	if (result) {
 		pr_err(TAG "get_status failed %d\n", result);
 		return result;
 	}
+
+	/* Prevent overflow */
+	if (stats.busy_time >= (1 << 24) || stats.total_time >= (1 << 24)) {
+		stats.busy_time >>= 7;
+		stats.total_time >>= 7;
+	}
+
+#ifdef CONFIG_ADRENO_IDLER
+	if (adreno_idler(stats, devfreq, freq)) {
+		/* adreno_idler has asked to bail out now */
+		return 0;
+	}
+#endif
+
 
 	*freq = stats.current_frequency;
 	*flag = 0;
