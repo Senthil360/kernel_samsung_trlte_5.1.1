@@ -198,25 +198,6 @@ static struct device_attribute lcd_device_attributes[] = {
 	__ATTR_NULL,
 };
 
-#ifdef CONFIG_BACKLIGHT_EXT_CONTROL
-	// if display is switched off
-	if (bl_level == 0) 
-	{
-		// write status to external var for further usage
-		backlight_on = false;
-
-		// Add external function calls here...
-	}
-	// if display is switched on
-	if (bl_level != 0 && pre_brightness == 0) 
-	{
-		// write status to external var for further usage
-		backlight_on = true;
-
-		// Add external function calls here...
-	}
-#endif
-
 /**
  * lcd_device_register - register a new object of lcd_device class.
  * @name: the name of the new object(must be the same as the name of the
