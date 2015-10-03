@@ -1,5 +1,5 @@
 export ARCH=arm
-export CROSS_COMPILE=/home/florian/arm-eabi-4.9/bin/arm-eabi-
+export CROSS_COMPILE=/home/crimsonthunder/arm-eabi-4.8/bin/arm-eabi-
 mkdir output
 
 make -C $(pwd) O=$(pwd)/output VARIANT_DEFCONFIG=apq8084_sec_trlte_eur_defconfig apq8084_sec_defconfig SELINUX_DEFCONFIG=selinux_defconfig SELINUX_LOG_DEFCONFIG=selinux_log_defconfig TIMA_DEFCONFIG=tima_defconfig DMVERITY_DEFCONFIG=dmverity_defconfig
