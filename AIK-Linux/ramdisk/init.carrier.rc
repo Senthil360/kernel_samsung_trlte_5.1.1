@@ -51,6 +51,9 @@ on boot
 # permission for MUIC(waterproof)
     chown system radio /sys/class/sec/switch/uart_en
 
+# MSP FactoryApp
+    mkdir /efs/FactoryApp 0775 system system
+
 # permissions for bluetooth.
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
     chown bluetooth net_bt_stack ro.bt.bdaddr_path
