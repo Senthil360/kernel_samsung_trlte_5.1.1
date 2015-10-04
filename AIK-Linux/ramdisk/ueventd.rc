@@ -116,7 +116,3 @@ subsystem adf
 
 # Google FRP solution
 /dev/block/platform/msm_sdcc.1/by-name/persistent    0660    system    system
-
-#Modem interface
-/dev/gsm*                 0660   system     radio
-

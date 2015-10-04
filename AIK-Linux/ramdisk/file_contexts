@@ -693,6 +693,7 @@
 /dev/tuihw	u:object_r:tz_device:s0
 /dev/tzdev	u:object_r:tz_device:s0
 /dev/tzic	u:object_r:tz_device:s0
+/dev/tzirs	u:object_r:tz_device:s0
 /dev/url	u:object_r:url_device:s0
 /dev/usb(/.*)?	u:object_r:usb_device:s0
 /dev/usb.*	u:object_r:usb_device:s0
