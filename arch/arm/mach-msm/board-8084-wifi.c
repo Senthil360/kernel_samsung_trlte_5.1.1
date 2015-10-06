@@ -442,7 +442,7 @@ static struct cntry_locales_custom brcm_wlan_translate_custom_table[] = {
 	{"MX", "XY", 3}
 };
 
-static void *brcm_wlan_get_country_code(char *ccode)
+static void *brcm_wlan_get_country_code(char *ccode, u32 flags)
 {
 	int size = ARRAY_SIZE(brcm_wlan_translate_custom_table);
 	int i;
