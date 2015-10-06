@@ -159,11 +159,16 @@ VPATH		:= $(srctree)$(if $(KBUILD_EXTMOD),:$(KBUILD_EXTMOD))
 export srctree objtree VPATH
 
 # Testflags for GCC 4.9.3 cortex_a15
-GCC_4.9.3_M = -munaligned-access -fno-pic -mfpu=neon-vfpv4 -Wno-switch
-GCC_4.9.3_K = -munaligned-access -mfpu=neon-vfpv4 -Wno-switch
-GCC_4.9.3_K_G = -munaligned-access -mfpu=neon-vfpv4 -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -Wno-switch
+GCC_4.9.3_M = -marm -mtune=cortex-a15 -mcpu=cortex-a15 -mfpu=neon-vfpv4 \
+		  -mvectorize-with-neon-quad -fgcse-after-reload -fgcse-sm \
+		  -fgcse-las -ftree-loop-im -ftree-loop-ivcanon -fweb \
+		  -frename-registers -ftree-loop-linear -ftree-vectorize \
+		  -fmodulo-sched -ffast-math -funsafe-math-optimizations \
+		  -std=gnu89 -Wno-implicit-function-declaration -Wno-switch
+GCC_4.9.3_K = -munaligned-access -mfpu=neon-vfpv4 -Wno-implicit-function-declaration -Wno-switch
+GCC_4.9.3_K_G = -munaligned-access -mfpu=neon-vfpv4 -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -marm -mtune=cortex-a15 -mcpu=cortex-a15 -Wno-switch
 GCC_4.9.3_HOSTCFLAGS = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -Wno-switch
-GCC_4.9.3_HOSTCXXFLAGS = -O3 -Wno-switch
+GCC_4.9.3_HOSTCXXFLAGS = -O3 -Wno-implicit-function-declaration -Wno-switch
 
 # SUBARCH tells the usermode build what the underlying arch is.  That is set
 # first, and if a usermode build is happening, the "ARCH=um" on the command
@@ -357,9 +362,9 @@ endif
 CC		= $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
-		  -Wbitwise -Wno-return-void $(CF)
+		  -Wbitwise -Wno-return-void $(CF) -Wno-implicit-function-declaration
 CFLAGS_MODULE   =  $(GCC_4.9.3_M)
-AFLAGS_MODULE   =
+AFLAGS_MODULE   =  $(GCC_4.9.3_M)
 LDFLAGS_MODULE  = --strip-debug
 CFLAGS_KERNEL	= $(GCC_4.9.3_K_G)
 AFLAGS_KERNEL	=
@@ -391,7 +396,9 @@ KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
  		   -fno-strict-aliasing -fno-common \
 		   -Wno-format-security \
 		   -Wno-sequence-point \
- 		   -fno-delete-null-pointer-checks
+ 		   -fno-delete-null-pointer-checks \
+		   -fno-delete-null-pointer-checks \
+		   -Wno-implicit-function-declaration
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
