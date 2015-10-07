@@ -313,8 +313,6 @@ static void run_boost_migration(unsigned int cpu)
 		}
 		put_online_cpus();
 	}
-	put_online_cpus();
-}
 
 static void cpuboost_set_prio(unsigned int policy, unsigned int prio)
 {
