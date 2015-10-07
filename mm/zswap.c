@@ -45,6 +45,8 @@
 /* Debugging code for zswap kernel panic */
 #include <linux/mm.h>
 
+#define UNUSED_VAR     __attribute__ ((unused))
+
 /*********************************
 * statistics
 **********************************/
@@ -436,7 +438,7 @@ static void zswap_free_page(struct page *page)
 	atomic_dec(&zswap_pool_pages);
 }
 
-static struct zs_ops zswap_zs_ops = {
+UNUSED_VAR static struct zs_ops zswap_zs_ops = {
 	.alloc = zswap_alloc_page,
 	.free = zswap_free_page
 };
