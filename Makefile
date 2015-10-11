@@ -163,12 +163,12 @@ GCC_4.9.3_M = -marm -mtune=cortex-a15 -mcpu=cortex-a15 -mfpu=neon-vfpv4 \
 		  -mvectorize-with-neon-quad -fgcse-after-reload -fgcse-sm \
 		  -fgcse-las -ftree-loop-im -ftree-loop-ivcanon -fweb \
 		  -frename-registers -ftree-loop-linear -ftree-vectorize \
-		  -fmodulo-sched -ffast-math -funsafe-math-optimizations \
+		  -fmodulo-sched -ffast-math -funsafe-math-optimizations -Wno-logical-op-parentheses \
 		  -std=gnu89 -Wno-implicit-function-declaration -Wno-switch
-GCC_4.9.3_K = -munaligned-access -mfpu=neon-vfpv4 -Wno-implicit-function-declaration -Wno-switch
-GCC_4.9.3_K_G = -munaligned-access -mfpu=neon-vfpv4 -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -marm -mtune=cortex-a15 -mcpu=cortex-a15 -Wno-switch
-GCC_4.9.3_HOSTCFLAGS = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -Wno-switch
-GCC_4.9.3_HOSTCXXFLAGS = -O3 -Wno-implicit-function-declaration -Wno-switch
+GCC_4.9.3_K = -munaligned-access -mfpu=neon-vfpv4 -Wno-implicit-function-declaration -Wno-switch -Wno-logical-op-parentheses
+GCC_4.9.3_K_G = -munaligned-access -Wno-logical-op-parentheses -mfpu=neon-vfpv4 -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -marm -mtune=cortex-a15 -mcpu=cortex-a15 -Wno-switch
+GCC_4.9.3_HOSTCFLAGS = -Wall -Wno-logical-op-parentheses -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer -Wno-switch
+GCC_4.9.3_HOSTCXXFLAGS = -O3 -Wno-implicit-function-declaration -Wno-switch -Wno-logical-op-parentheses
 
 # SUBARCH tells the usermode build what the underlying arch is.  That is set
 # first, and if a usermode build is happening, the "ARCH=um" on the command
