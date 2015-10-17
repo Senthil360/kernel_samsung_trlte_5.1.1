@@ -360,19 +360,11 @@ endif
 CC		= $(srctree)/scripts/gcc-wrapper.py $(REAL_CC)
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
-<<<<<<< HEAD
 		  -Wbitwise -Wno-return-void $(CF) -Wno-implicit-function-declaration
 CFLAGS_MODULE   =  $(GCC_4.9.3_M)
 AFLAGS_MODULE   =  $(GCC_4.9.3_M)
 LDFLAGS_MODULE  = --strip-debug
 CFLAGS_KERNEL	= $(GCC_4.9.3_K_G)
-=======
-		  -Wbitwise -Wno-return-void $(CF)
-CFLAGS_MODULE   =
-AFLAGS_MODULE   =
-LDFLAGS_MODULE  =
-CFLAGS_KERNEL	=
->>>>>>> parent of e0953a8... revert some changes
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
@@ -383,7 +375,9 @@ USERINCLUDE    := \
 		-Iarch/$(hdr-arch)/include/generated/uapi \
 		-I$(srctree)/include/uapi \
 		-Iinclude/generated/uapi \
-                -include $(srctree)/include/linux/kconfig.h
+                -include $(srctree)/include/linux/kconfig.h \
+		-I$(srctree)/drivers/scsi/ufs \
+		-I$(srctree)/drivers/video/msm/mdss
 
 # Use LINUXINCLUDE when you must reference the include/ directory.
 # Needed to be compatible with the O= option
@@ -396,9 +390,8 @@ LINUXINCLUDE    := \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
-		   -fno-strict-aliasing -fno-common \
-		   -Werror-implicit-function-declaration \
+KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
+ 		   -fno-strict-aliasing -fno-common \
 		   -Wno-format-security \
 		   -Wno-sequence-point \
  		   -fno-delete-null-pointer-checks \
