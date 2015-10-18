@@ -329,7 +329,19 @@ void cpufreq_notify_transition(struct cpufreq_policy *policy,
 }
 EXPORT_SYMBOL_GPL(cpufreq_notify_transition);
 
-
+/**
+ * cpufreq_notify_utilization - notify CPU userspace about CPU utilization
+ * change
+ *
+ * This function is called everytime the CPU load is evaluated by the
+ * ondemand governor. It notifies userspace of cpu load changes via sysfs.
+ */
+void cpufreq_notify_utilization(struct cpufreq_policy *policy,
+		unsigned int util)
+{
+	if (policy)
+		policy->util = util;
+}
 
 /*********************************************************************
  *                          SYSFS INTERFACE                          *
@@ -1656,24 +1668,6 @@ const char *cpufreq_get_current_driver(void)
 	return NULL;
 }
 EXPORT_SYMBOL_GPL(cpufreq_get_current_driver);
-
-/**
- * cpufreq_notify_utilization - notify CPU userspace about CPU utilization
- * change
- *
- * This function is called everytime the CPU load is evaluated by the
- * ondemand governor. It notifies userspace of cpu load changes via sysfs.
- */
-void cpufreq_notify_utilization(struct cpufreq_policy *policy,
-		unsigned int util)
-{
-	if (policy) {
-		policy->util = util;
-
-		if (policy->util >= MIN_CPU_UTIL_NOTIFY)
-			sysfs_notify(&policy->kobj, NULL, "cpu_utilization");
-	}
-}
 
 /*********************************************************************
  *                     NOTIFIER LISTS INTERFACE                      *
