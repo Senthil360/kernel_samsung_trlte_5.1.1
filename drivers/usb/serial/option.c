@@ -61,6 +61,10 @@ static void option_instat_callback(struct urb *urb);
 #define OPTION_PRODUCT_RICOLA_NDIS		0x6050
 #define OPTION_PRODUCT_RICOLA_NDIS_LIGHT	0x6150
 #define OPTION_PRODUCT_RICOLA_NDIS_QUAD		0x6250
+#define ZTE_PRODUCT_ZM8620_X			0x0396
+#define ZTE_PRODUCT_ME3620_MBIM			0x0426
+#define ZTE_PRODUCT_ME3620_X			0x1432
+#define ZTE_PRODUCT_ME3620_L			0x1433
 #define OPTION_PRODUCT_RICOLA_NDIS_QUAD_LIGHT	0x6350
 #define OPTION_PRODUCT_COBRA			0x6500
 #define OPTION_PRODUCT_COBRA_BUS		0x6501
@@ -529,6 +533,18 @@ static const struct option_blacklist_info zte_k3765_z_blacklist = {
 
 static const struct option_blacklist_info zte_mc2718_z_blacklist = {
 	.sendsetup = BIT(1) | BIT(2) | BIT(3) | BIT(4),
+};
+
+static const struct option_blacklist_info zte_me3620_mbim_blacklist = {
+	.reserved = BIT(2) | BIT(3) | BIT(4),
+};
+
+static const struct option_blacklist_info zte_me3620_xl_blacklist = {
+	.reserved = BIT(3) | BIT(4) | BIT(5),
+};
+
+static const struct option_blacklist_info zte_zm8620_x_blacklist = {
+	.reserved = BIT(3) | BIT(4) | BIT(5),
 };
 
 static const struct option_blacklist_info huawei_cdc12_blacklist = {
@@ -1135,6 +1151,14 @@ static const struct usb_device_id option_ids[] = {
 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x000b, 0xff, 0xff, 0xff) },
 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x000c, 0xff, 0xff, 0xff) },
 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x000d, 0xff, 0xff, 0xff) },
+	{ USB_DEVICE(ZTE_VENDOR_ID, ZTE_PRODUCT_ME3620_L),
+	 .driver_info = (kernel_ulong_t)&zte_me3620_xl_blacklist },
+	{ USB_DEVICE(ZTE_VENDOR_ID, ZTE_PRODUCT_ME3620_MBIM),
+	 .driver_info = (kernel_ulong_t)&zte_me3620_mbim_blacklist },
+	{ USB_DEVICE(ZTE_VENDOR_ID, ZTE_PRODUCT_ME3620_X),
+	 .driver_info = (kernel_ulong_t)&zte_me3620_xl_blacklist },
+	{ USB_DEVICE(ZTE_VENDOR_ID, ZTE_PRODUCT_ZM8620_X),
+	 .driver_info = (kernel_ulong_t)&zte_zm8620_x_blacklist },
 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x000e, 0xff, 0xff, 0xff) },
 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x000f, 0xff, 0xff, 0xff) },
 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x0010, 0xff, 0xff, 0xff) },
