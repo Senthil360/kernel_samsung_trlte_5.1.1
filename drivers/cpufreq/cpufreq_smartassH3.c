@@ -38,7 +38,7 @@
 #include <linux/notifier.h>
 #include <asm/cputime.h>
 #include <linux/earlysuspend.h>
-
+#define cputime64_sub(__a, __b) ((__a) - (__b)) 
 
 /******************** Tunable parameters: ********************/
 
