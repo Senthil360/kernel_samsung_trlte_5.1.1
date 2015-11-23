@@ -166,7 +166,7 @@ GCC_4.9.3_M = -marm -mtune=cortex-a15 -mcpu=cortex-a15 -mfpu=neon-vfpv4 \
 		  -fmodulo-sched -ffast-math -funsafe-math-optimizations \
 		  -std=gnu89
 GCC_4.9.3_K = -munaligned-access -mfpu=neon-vfpv4
-GCC_4.9.3_K_G = -munaligned-access -mfpu=neon-vfpv4 -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -marm -mtune=cortex-a15 -mcpu=cortex-a15
+GCC_4.9.3_K_G = -munaligned-access -mfpu=neon-vfpv4 -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -marm -mtune=cortex-a15 -mcpu=cortex-a15 -fgcse-lm -fgcse-sm -fsched-spec-load -ffast-math -fsingle-precision-constant
 GCC_4.9.3_HOSTCFLAGS = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer
 GCC_4.9.3_HOSTCXXFLAGS = -O3
 
