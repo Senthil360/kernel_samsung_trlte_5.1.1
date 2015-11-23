@@ -462,15 +462,12 @@ static ssize_t do_write_log_from_user(struct logger_log *log,
 {
 	size_t len;
 
-<<<<<<< HEAD
 	// if logger mode is disabled, terminate instantly
 	if (logger_mode == 0)
 	{
 			return 0;
 	} 
 
-=======
->>>>>>> parent of 1a3d0e4... staging: Remove the Android logger driver
 	len = min(count, log->size - log->w_off);
 	if (len && copy_from_user(log->buffer + log->w_off, buf, len))
 		return -EFAULT;
