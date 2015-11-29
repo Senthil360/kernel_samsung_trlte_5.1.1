@@ -158,17 +158,6 @@ VPATH		:= $(srctree)$(if $(KBUILD_EXTMOD),:$(KBUILD_EXTMOD))
 
 export srctree objtree VPATH
 
-# Testflags for GCC 4.9.3 cortex_a15
-GCC_4.9.3_M = -marm -mtune=cortex-a15 -mcpu=cortex-a15 -mfpu=neon-vfpv4 \
-		  -mvectorize-with-neon-quad -fgcse-after-reload -fgcse-sm \
-		  -fgcse-las -ftree-loop-im -ftree-loop-ivcanon -fweb \
-		  -frename-registers -ftree-loop-linear -ftree-vectorize \
-		  -fmodulo-sched -ffast-math -funsafe-math-optimizations \
-		  -std=gnu89
-GCC_4.9.3_K = -munaligned-access -mfpu=neon-vfpv4
-GCC_4.9.3_K_G = -munaligned-access -mfpu=neon-vfpv4 -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -marm -mtune=cortex-a15 -mcpu=cortex-a15 -fgcse-lm -fgcse-sm -fsched-spec-load -ffast-math -fsingle-precision-constant
-GCC_4.9.3_HOSTCFLAGS = -Wall -Wmissing-prototypes -Wstrict-prototypes -O3 -fomit-frame-pointer
-GCC_4.9.3_HOSTCXXFLAGS = -O3
 
 # SUBARCH tells the usermode build what the underlying arch is.  That is set
 # first, and if a usermode build is happening, the "ARCH=um" on the command
@@ -252,7 +241,7 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 HOSTCC       = gcc
 HOSTCXX      = g++
 HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes -Ofast -DNDEBUG -fomit-frame-pointer -fgcse-las -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -pipe -Wno-unused-parameter -Wno-sign-compare -Wno-missing-field-initializers -Wno-unused-variable -Wno-unused-value -Wno-maybe-uninitialized -Wno-unused-value
-HOSTCXXFLAGS = -Ofast -DNDEBUG -fgcse-las -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -pipe
+HOSTCXXFLAGS = -O3 -DNDEBUG -fgcse-las -fgraphite -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -pipe
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -336,7 +325,7 @@ include $(srctree)/scripts/Kbuild.include
 
 AS		= $(CROSS_COMPILE)as
 LD		= $(CROSS_COMPILE)ld
-CC		= $(CROSS_COMPILE)gcc
+CC		= $(CROSS_COMPILE)gcc -pthread -fstrict-aliasing -Wno-strict-aliasing -fstack-protector
 CPP		= $(CC) -E
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -358,13 +347,13 @@ endif
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 
-GRAPHITE	= -fgraphite-identity -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-flatten -fgcse-sm -fgcse-las -fsched-spec-load -funroll-loops -fforce-addr -mvectorize-with-neon-quad -ffast-math -fpredictive-commoning -floop-nest-optimize -floop-unroll-and-jam -pthread -fopenmp
-KERNELFLAGS	= $(GRAPHITE) -Ofast -DNDEBUG -munaligned-access -fsingle-precision-constant -mcpu=cortex-a15 -mtune=cortex-a15 -marm -mfpu=neon-vfpv4 -ftree-vectorize -ftree-loop-im -ftree-loop-ivcanon -fprefetch-loop-arrays -fmodulo-sched -fmodulo-sched-allow-regmoves -fivopts -floop-strip-mine -frename-registers
-MODFLAGS	= -DMODULE $(KERNELFLAGS)
+GRAPHITE	= -fgraphite-identity -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block -floop-flatten -fgcse-sm -fgcse-las -fsched-spec-load -fforce-addr -mvectorize-with-neon-quad -ffast-math -fpredictive-commoning -floop-nest-optimize -floop-unroll-and-jam -pthread -fopenmp -fgraphite
+KERNELFLAGS	= $(GRAPHITE) -O3 -DNDEBUG -munaligned-access -fsingle-precision-constant -mcpu=cortex-a15 -mtune=cortex-a15 -marm -mfpu=neon-vfpv4 -ftree-vectorize -ftree-loop-im -ftree-loop-ivcanon -fprefetch-loop-arrays -fmodulo-sched -fmodulo-sched-allow-regmoves -fivopts -frename-registers
+MODFLAGS	= -DMODULE $(KERNELFLAGS) -DNDEBUG -munaligned-access -fsingle-precision-constant -mcpu=cortex-a15 -mtune=cortex-a15 -marm
 CFLAGS_MODULE   =  $(MODFLAGS)
 AFLAGS_MODULE   =  $(MODFLAGS)
 LDFLAGS_MODULE  = --strip-debug
-CFLAGS_KERNEL	= 
+CFLAGS_KERNEL	= $(GRAPHITE) -DNDEBUG -munaligned-access -fsingle-precision-constant -mcpu=cortex-a15 -mtune=cortex-a15 -ftree-vectorize -ftree-loop-im -ftree-loop-ivcanon -fprefetch-loop-arrays -fmodulo-sched -fmodulo-sched-allow-regmoves
 AFLAGS_KERNEL	= $(KERNELFLAGS)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
@@ -394,8 +383,7 @@ KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
  		   -fno-strict-aliasing -fno-common \
 		   -Wno-format-security \
 		   -Wno-sequence-point \
- 		   -fno-delete-null-pointer-checks \
-		   -fno-delete-null-pointer-checks
+ 		   -fno-delete-null-pointer-checks 
 		  
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
