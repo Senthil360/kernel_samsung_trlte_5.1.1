@@ -259,19 +259,12 @@ static void run_boost_migration(unsigned int cpu)
 	unsigned long flags;
 	unsigned int req_freq;
 
-	if (!cpuboost_enable) return 0;
+	if (!cpuboost_enable) return;
 
 	spin_lock_irqsave(&s->lock, flags);
 	s->pending = false;
 	src_cpu = s->src_cpu;
 	spin_unlock_irqrestore(&s->lock, flags);
-#ifdef CONFIG_IRLED_GPIO
-		if (unlikely(gir_boost_disable)) {
-			pr_debug("[GPIO_IR][%s] continue~!(cpu:%d)\n", 
-				__func__, raw_smp_processor_id());
-			continue;
-		}
-#endif
 
 	ret = cpufreq_get_policy(&src_policy, src_cpu);
 	if (ret)
@@ -289,8 +282,6 @@ static void run_boost_migration(unsigned int cpu)
 		return;
 	}
 
-		if (s->task_load < migration_load_threshold)
-			continue;
 
 	if (sync_threshold)
 		req_freq = min(sync_threshold, req_freq);
