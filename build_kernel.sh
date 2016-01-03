@@ -9,4 +9,6 @@ mv output/arch/arm/boot/zImage $(pwd)/imgtools/Boot/kernel
 ./imgtools/dtbTool -o ./imgtools/Boot/dt.img -s 4096 -p ./output/scripts/dtc/ ./output/arch/arm/boot/dts/
 bash ./imgtools/mkboot ./imgtools/Boot ./imgtools/Boot.img
 mv ./imgtools/Boot.img ./Boot.img
-rm output/
+rm ./imgtools/Boot/kernel
+rm ./imgtools/Boot/dt.img
+rm -rf output/
