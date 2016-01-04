@@ -23,8 +23,8 @@
 //#define CPUFREQ_HARDLIMIT_DEBUG // Add debugging prints in dmesg
 
 /* Default frequencies for n910X */
-#define CPUFREQ_HARDLIMIT_MAX_STOCK	3072000 
-#define CPUFREQ_HARDLIMIT_MIN_STOCK	268800
+#define CPUFREQ_HARDLIMIT_MAX_STOCK	2649600
+#define CPUFREQ_HARDLIMIT_MIN_STOCK	300000
 
 #define HARDLIMIT_USER_ENFORCED	1
 #define HARDLIMIT_USER_DISABLED 0		/* default, hardlimit is disabled on boot */
