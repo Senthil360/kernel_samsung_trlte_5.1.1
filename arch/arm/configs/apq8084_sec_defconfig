@@ -1,6 +1,7 @@
 # *** NamelessKernel Addons ***
 # Start
 
+CONFIG_WAKE_GESTURES=y
 # CONFIG_ARM_PATCH_PHYS_VIRT is not set
 # CONFIG_SECURITY_SELINUX_AVC_STATS is not set
 CONFIG_DEFERRED_INITCALLS=y
