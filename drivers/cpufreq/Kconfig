@@ -513,12 +513,6 @@ config CPU_FREQ_GOV_CONSERVATIVEX
 	help
 	  'conservativex' - less aggressive version of conservative
 
-config CPU_FREQ_GOV_BLUACTIVE
-	tristate "'bluactive' cpufreq governor"
-	depends on CPU_FREQ
-	help
-	  'bluactive' - less aggressive version of conservative
-
 config CPU_FREQ_GOV_PEGASUSQ
 	tristate "'pegasusq' cpufreq policy governor"
 
