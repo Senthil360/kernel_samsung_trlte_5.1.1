@@ -1465,7 +1465,7 @@ EXPORT_SYMBOL(cpufreq_quick_get_max);
 
 static unsigned int __cpufreq_get(unsigned int cpu)
 {
-	struct cpufreq_policy *policy = NULL;
+	struct cpufreq_policy *policy;
 	unsigned int ret_freq = 0;
 
 	if (!cpufreq_driver->get || policy == 0)
