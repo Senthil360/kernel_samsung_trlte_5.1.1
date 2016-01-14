@@ -206,8 +206,6 @@
 			15 01 00 00 01 00 02 F7 03                      /* Gamma, LTPS(AID) update */
 			15 01 00 00 00 00 02 F7 00
 			29 01 00 00 00 00 03 F0 A5 A5                   /* TEST KEY key Disable  */
- 			39 01 00 00 01 00 02 B0 02                      /* Set index for P3 */
- 			39 01 00 00 01 00 02 B1 16                      /* Set AID threshold */
 		];
 
 		qcom,mdss-dsi-off-command=[
