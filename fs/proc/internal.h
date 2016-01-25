@@ -69,7 +69,6 @@ struct proc_inode {
 	struct inode vfs_inode;
 };
 
-
 /*
  * General functions
  */
@@ -87,11 +86,6 @@ static inline void *__PDE_DATA(const struct inode *inode)
 {
 	return PDE(inode)->data;
 }
-
-extern const struct file_operations proc_reclaim_operations;
-
-void proc_init_inodecache(void);
-
 
 static inline struct pid *proc_pid(struct inode *inode)
 {
