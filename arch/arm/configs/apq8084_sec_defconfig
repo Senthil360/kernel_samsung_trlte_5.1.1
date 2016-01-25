@@ -1,7 +1,6 @@
 # *** NamelessKernel Addons ***
 # Start
 
-CONFIG_PROCESS_RECLAIM=y
 # CONFIG_MSM_RPM_STATS_LOG is not set
 # CONFIG_MSM_RPM_RBCPR_STATS_V2_LOG is not set
 CONFIG_GENERIC_STRNCPY_FROM_USER=y
