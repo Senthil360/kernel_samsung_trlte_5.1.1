@@ -136,7 +136,6 @@ static ssize_t sel_read_enforce(struct file *filp, char __user *buf,
 	return simple_read_from_buffer(buf, count, ppos, tmpbuf, length);
 }
 
-int selinux_enforcing = 0;
 
 static const struct file_operations sel_enforce_ops = {
 	.read		= sel_read_enforce,
