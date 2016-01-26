@@ -163,6 +163,7 @@ enum zone_stat_item {
 	NR_CMA_INACTIVE_FILE,
 	NR_CMA_ACTIVE_FILE,
 	NR_CMA_UNEVICTABLE,
+#endif
 #ifdef CONFIG_UKSM
 	NR_UKSM_ZERO_PAGES,
 #endif
