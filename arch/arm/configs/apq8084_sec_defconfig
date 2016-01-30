@@ -2,7 +2,7 @@
 # Start
 
 CONFIG_KSM=y
-CONFIG_UKSM=y
+# CONFIG_UKSM is not set
 # CONFIG_KSM_LEGACY is not set
 CONFIG_ZCACHE=y
 # CONFIG_ZCACHE_DEBUG is not set
