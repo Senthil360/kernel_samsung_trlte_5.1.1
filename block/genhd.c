@@ -34,20 +34,20 @@ struct kobject *block_depr;
 /* for extended dynamic devt allocation, currently only one major is used */
 #define NR_EXT_DEVT		(1 << MINORBITS)
 
-/* For extended devt allocation.  ext_devt_mutex prevents look up
- * results from going away underneath its user.
- */
-static DEFINE_MUTEX(ext_devt_mutex);
-static DEFINE_IDR(ext_devt_idr);
-
-static struct device_type disk_type;
-
-static void disk_check_events(struct disk_events *ev,
-			      unsigned int *clearing_ptr);
-static void disk_alloc_events(struct gendisk *disk);
-static void disk_add_events(struct gendisk *disk);
-static void disk_del_events(struct gendisk *disk);
-static void disk_release_events(struct gendisk *disk);
+/* For extended devt allocation.  ext_devt_lock prevents look up
+  * results from going away underneath its user.
+  */
+ static DEFINE_SPINLOCK(ext_devt_lock);
+ static DEFINE_IDR(ext_devt_idr);
+ 
+ static struct device_type disk_type;
+ 
+ static void disk_check_events(struct disk_events *ev,
+                               unsigned int *clearing_ptr);
+ static void disk_alloc_events(struct gendisk *disk);
+ static void disk_add_events(struct gendisk *disk);
+ static void disk_del_events(struct gendisk *disk);
+ static void disk_release_events(struct gendisk *disk);
 
 /**
  * disk_get_part - get partition
