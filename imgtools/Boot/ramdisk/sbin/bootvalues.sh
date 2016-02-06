@@ -4,7 +4,6 @@
 echo "200000000" > /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
 echo "600000000" > /sys/class/kgsl/kgsl-3d0/max_gpuclk
 echo deadline > /sys/block/mmcblk0/queue/scheduler
-echo cfq > /sys/block/mmcblk0rpmb/queue/scheduler
 echo deadline > /sys/block/mmcblk1/queue/scheduler
 sleep 2;
 echo 8 > /sys/block/mmcblk0/queue/iosched/fifo_batch
